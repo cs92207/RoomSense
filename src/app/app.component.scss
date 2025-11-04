@@ -1,0 +1,52 @@
+ion-item {
+    --background: transparent;
+    --color: rgba(162, 162, 162, 0.248);
+    --background-activated: transparent;
+    --background-focused: transparent;
+    --background-hover: transparent;
+    --background-selected: transparent;
+    --background-disabled: transparent;
+    --border-color: transparent; /* Korrigiere Tippfehler hier */
+    --box-shadow: none;
+}
+
+ion-header {
+  --box-shadow: none !important;
+  box-shadow: none !important;
+}
+
+ion-toolbar {
+  --box-shadow: none !important;
+  box-shadow: none !important;
+}
+
+#bm ion-icon {
+    margin-right: 1vh;
+}
+
+ion-icon {
+    margin-right: 3vh;
+}
+
+ion-menu-toggle {
+    --background: transparent;
+}
+
+ion-list {
+    --background: transparent;
+}
+
+a {
+    color:white;
+    font-size: 2vh;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+a:hover {
+    cursor: pointer;
+}
+
+#ap:hover {
+    cursor: pointer;
+}

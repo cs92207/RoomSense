@@ -1,0 +1,174 @@
+
+
+<ion-content [fullscreen]="true">
+
+  <app-cookie-banner></app-cookie-banner>
+
+<div class="row mb-4" style="width: 90%; margin-top: 128px; justify-content: center; justify-self: center;">
+  <div class="col-12 col-md-6 mb-3 mb-md-0">
+    <div class="outer-card card text-dark p-3 h-100">
+      
+      <h2 style="font-size: 4vh;">Projekt {{project.name}}</h2>
+      <p *ngIf="!isLoading">{{project.description}}</p>
+      <p *ngIf="isLoading">Laden...</p>
+      <a class="btn btn-outline-dark" href="/project-details/{{ project.id }}/{{ customer.id }}#convert" style="width: fit-content;">Text/Audio zu Todo AI</a>
+
+
+    </div>
+  </div>
+  <div class="col-12 col-md-6 mb-3 mb-md-0">
+    <div class="outer-card card text-dark p-3 h-100">
+      <h2>Deadline:</h2>
+      <p>{{ project.deadline }}</p>
+      <a class="btn btn-outline-dark" href="/customer-details/{{ project.customer }}" style="width: fit-content;">Back</a>
+    </div>
+  </div>
+</div>
+  
+<div class="outer-card" style="border-radius: 16px; padding-left: 32px; padding-right: 32px; padding-top: 32px; padding-bottom: 32px; justify-self: center; margin-top: 32px; display: flex; justify-content: center; gap: 32px; flex-wrap: wrap; width: 90%;">
+
+  <!-- Not Started -->
+   <div>
+        <div 
+      cdkDropList 
+      [cdkDropListData]="futureTodos" 
+      (cdkDropListDropped)="drop($event)" 
+      [cdkDropListConnectedTo]="['unchecked', 'checked']"
+      class="card"
+      style="flex: 1; min-width: 300px; border-radius: 16px; padding-top: 32px; background-color: rgb(246, 246, 246);"
+      id="future">
+      
+      <div style="color: white; text-align: center; font-size: 32px; margin-bottom: 32px;">
+        <h2 class="text-dark">Nicht gestartet</h2>
+      </div>
+
+      <div *ngIf="!isLoading">
+        <div *ngFor="let todo of futureTodos" cdkDrag style="margin-top: 8px; padding-left: 32px; padding-right: 32px;">
+          <app-todo [todo]="todo" [customer]="customer.id" [isOwner]="isOwner" (deleteTriggered)="updateTodoList()"></app-todo>
+        </div>  
+      </div>
+
+      <div *ngIf="isLoading" style="margin-top: 8px; padding-left: 32px; padding-right: 32px;">
+        <div *ngFor="let placeholder of [1, 2]" class="skeleton-todo-card" style="margin: 16px;"></div>
+      </div>
+
+      <!-- Create new todo -->
+      <div class="todo-container">
+        <input 
+          class="todo-input"
+          placeholder="todo name"
+          type="text"
+          [(ngModel)]="newName"/>
+
+        <input 
+          class="todo-input"
+          placeholder="todo description"
+          type="text"
+          [(ngModel)]="newDescription"/>
+
+        <button 
+          *ngIf="!isOwner"
+          (click)="createTodo()" 
+          class="todo-button">+ Anfragen</button>
+
+        <button 
+          *ngIf="isOwner"
+          (click)="createTodo()" 
+          class="todo-button">+ Erstellen</button>
+      </div>
+
+    </div>
+    <div style="color: var(--primary-color); padding-top: 2px;"></div>
+   </div>
+  
+
+  <!-- In Progress -->
+  <div 
+    cdkDropList 
+    [cdkDropListData]="uncheckedTodos" 
+    (cdkDropListDropped)="drop($event)" 
+    [cdkDropListConnectedTo]="['future', 'checked']"
+    class="card"
+    style="flex: 1; min-width: 300px; border-radius: 16px; padding: 16px 32px 32px 32px; background-color: rgb(246, 246, 246);"
+    id="unchecked">
+
+    <div style="text-align: center; font-size: 32px; margin-bottom: 32px;">
+      <h2 class="text-dark">In Arbeit</h2>
+    </div>
+
+    <div *ngFor="let todo of uncheckedTodos" cdkDrag style="margin-top: 8px;">
+      <app-todo [customer]="customer.id" [todo]="todo" [isOwner]="isOwner" (deleteTriggered)="updateTodoList()"></app-todo>
+    </div>
+  </div>
+
+  <!-- Finished -->
+  <div 
+    cdkDropList 
+    [cdkDropListData]="checkedTodos" 
+    (cdkDropListDropped)="drop($event)" 
+    [cdkDropListConnectedTo]="['unchecked', 'future']"
+    style="flex: 1; min-width: 300px; border-radius: 16px; padding: 16px 32px 32px 32px; background-color: rgb(246, 246, 246);"
+    class="card"
+    id="checked">
+
+    <div style="text-align: center; font-size: 32px; margin-bottom: 32px;">
+      <h2 class="text-dark">Fertige Todo´s</h2>
+    </div>
+
+    <div *ngFor="let todo of checkedTodos" cdkDrag style="margin-top: 8px;">
+      <app-todo [customer]="customer.id" [todo]="todo" [isOwner]="isOwner" (deleteTriggered)="updateTodoList()"></app-todo>
+    </div>
+  </div>
+</div>
+
+<div id="convert" style="width: 90%; justify-self: center; margin-top: 32px;" *ngIf="this.isOwner">
+  <div class="card outer-card text-dark p-3 h-100">
+    <h4>Text zu Todo´s konvertieren</h4>
+    <p>Füge hier einen Text (z.B. Kundenmail, WhatsApp Nachricht etc.) ein und unsere KI konvertiert diesen zu Todo´s.</p>
+    <textarea [(ngModel)]="text" class="input-field" style="background-color: white;"></textarea>
+    <button (click)="convertToTodos()" class="btn btn-success mt-2">Konvertieren</button>
+  </div>
+</div>
+
+<div style="width: 90%; justify-self: center; margin-top: 32px;" *ngIf="this.isOwner">
+  <div class="card outer-card text-dark p-3 h-100">
+    <h4>Audio zu Todo konvertieren</h4>
+    <p>Füge hier eine Audio (z.B. Sprachnachricht etc.) ein und unsere KI konvertiert diesen zu Todo´s.</p>
+    <ion-label position="stacked">Audio auswählen</ion-label>
+    <input type="file" (change)="runTranscribe($event)" accept="audio/*">
+  </div>
+</div>
+
+<div style="width: 90%; justify-self: center; margin-top: 32px;">
+
+  <div class="row mb-4">
+    <div class="col-12 col-md-6 mb-3 mb-md-0">
+      <div class="outer-card card text-dark p-3 h-100">
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="metric-card text-dark p-0 m-0" style="font-size: 1.5vh">Löschen</div>
+        </div>
+        <div>
+          <p class="text-dark p-0 m-0" style="font-size: 2.3vh;">Projekt löschen</p>
+          <button (click)="finishProject()" class="btn btn-outline-danger mt-2 btn-sm">Löschen</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 mb-3 mb-md-0">
+      <div class="outer-card card text-dark p-3 h-100">
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="metric-card text-dark p-0 m-0" style="font-size: 1.5vh">Abschließen</div>
+        </div>
+        <div>
+          <p class="text-dark p-0 m-0" style="font-size: 2.3vh;">Projekt abschließen</p>
+          <button (click)="finishProject()" class="btn btn-outline-success mt-2 btn-sm">Abschließen</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+<app-footer-bottom></app-footer-bottom>
+
+</ion-content>

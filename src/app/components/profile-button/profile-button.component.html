@@ -1,0 +1,8 @@
+
+<ion-button style="margin-right: 16px; color: white;" *ngIf="user != null" (click)="openPopover($event)">
+    Angemeldet ▼
+</ion-button>
+
+<ion-button style="margin-right: 16px; color: white;" (click)="goToSignIn()" *ngIf="user == null">
+Anmelden
+</ion-button>

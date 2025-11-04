@@ -1,0 +1,7 @@
+<ion-content *ngIf="user != null" class="ion-padding">
+  <ion-item>
+    <ion-label position="floating"><b>Email:</b></ion-label> <br/>
+    {{user!.email}}
+  </ion-item>
+  <ion-button expand="full" (click)="signOut()" style="margin-top: 10px; --background: red; --color: white;">Abmelden</ion-button>
+</ion-content>

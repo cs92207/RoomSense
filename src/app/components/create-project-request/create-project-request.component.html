@@ -1,0 +1,37 @@
+<div class="p-3">
+  <h5 class="border-bottom pb-3">Neue Projektanfrage</h5>
+  <div class="mb-3 mt-3">
+    <label class="mt-3">Projektname:</label>
+    <input
+      [(ngModel)]="newName"
+      type="text"
+      class="form-control mt-1"
+      placeholder="Projektname"
+    />
+    <label class="mt-3">Beschreibung:</label>
+    <input
+      [(ngModel)]="newDescription"
+      type="text"
+      class="form-control mt-1"
+      placeholder="Beschreibung"
+    />
+    <label class="mt-3">Budget:</label>
+    <input
+      [(ngModel)]="newPrice"
+      type="text"
+      class="form-control mt-1"
+      placeholder="Preis"
+    />
+    <label class="mt-3">Deadline:</label>
+    <input
+      [(ngModel)]="newDeadline"
+      type="date"
+      class="form-control mt-1"
+      placeholder="Deadline"
+    />
+  </div>
+  <div class="d-flex justify-content-end">
+    <button class="btn btn-secondary me-2" (click)="cancel()">Abbrechen</button>
+    <button class="btn btn-primary" (click)="createCustomer()">Erstellen</button>
+  </div>
+</div>

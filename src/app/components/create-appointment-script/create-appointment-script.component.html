@@ -1,0 +1,17 @@
+<div class="m-3 p-3">
+  <h2>Skript hinzufügen</h2>
+  <div *ngIf="!isLoading" style="display: flex; flex-direction: column; background-color: var(--outer-card); border-radius: 16px;" class="mt-4 p-3">    
+    <label class="text-dark">Audio Datei hinzufügen (optional)</label>
+    <input (change)="onFileSelected($event)" class="text-dark" type="file" class="input-field" />
+  </div>
+
+  <p *ngIf="isLoading">Skript wird transkribiert...</p>
+
+  <div style="display: flex; flex-direction: column; background-color: var(--outer-card); border-radius: 16px;" class="mt-4 p-3">    
+    <label class="text-dark">Skript</label>
+    <textarea [(ngModel)]="scriptText" class="text-dark input-field" style="background-color: white;"></textarea>
+  </div>
+
+  <button *ngIf="!isLoading" (click)="createAppointmentScript()" class="btn btn-success mt-4">Erstellen</button>
+  <button *ngIf="isLoading" class="btn btn-success mt-4" disabled>Erstellen</button>
+</div>

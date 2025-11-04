@@ -1,0 +1,15 @@
+
+
+.hover:hover {
+    cursor: pointer;
+}
+
+ion-icon:hover {
+    cursor: pointer;
+}
+
+.out-customer:hover {
+    transition: 0.2s;
+    background-color: var(--outer-card);
+    border-radius: 8px;
+}

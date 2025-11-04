@@ -1,0 +1,26 @@
+.sidebar {
+  height: 100vh;
+  width: 250px;
+  transition: width 0.3s ease;
+  overflow-x: hidden;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.sidebar.collapsed {
+  width: 80px;
+}
+
+.sidebar .nav-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sidebar.collapsed .nav-link span,
+.sidebar.collapsed .fs-5,
+.sidebar.collapsed .btn span {
+  display: none;
+}

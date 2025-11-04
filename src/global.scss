@@ -34,4 +34,51 @@
 
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import "@ionic/angular/css/palettes/dark.system.css";
+
+h1, h2, h3, h4, h5, p {
+  color: black;
+}
+
+.skeleton-todo-card {
+  width: 90%;
+  height: 9vh;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #eee 25%, #ddd 37%, #eee 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.2s infinite;
+}
+
+.skeleton-card {
+  width: 40vh;
+  height: 45vh;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #eee 25%, #ddd 37%, #eee 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -400px 0;
+  }
+  100% {
+    background-position: 400px 0;
+  }
+}
+
+body {
+    background-color: var(--background);
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 0;
+    margin: 0;
+  }
+
+.outer-card {
+  box-shadow: 0px 0px 6px 1px rgba(219,219,219,0.8);
+}
+
+
+ion-content {
+  --background: var(--background);
+}

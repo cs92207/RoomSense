@@ -1,0 +1,70 @@
+
+
+<ion-content [fullscreen]="true">
+
+<app-cookie-banner></app-cookie-banner>
+  <div style="width: 90%; justify-self: center; margin-top: 128px;">
+    <div class="bg-light text-center  card shadow-sm p-5 rounded-4 mx-auto" style="background-color: var(--outer-card);">
+
+      <h1 class="mb-4" style="font-size: 4vh;">Kundenprojekt erstellen</h1>
+
+      <!-- Project Name -->
+      <div class="mb-3">
+        <input
+          type="text"
+          name="name"
+          [(ngModel)]="newName"
+          placeholder="Projekt Name"
+          class="form-control mx-auto"
+          style="border-radius: 16px; background-color: white; color: black; padding: 16px;"
+        />
+      </div>
+
+      <!-- Description -->
+      <div class="mb-3">
+        <textarea
+          name="description"
+          [(ngModel)]="newDescription"
+          placeholder="Projekt Beschreibung"
+          class="form-control mx-auto"
+          style="border-radius: 16px; background-color: white; color: black; padding: 16px;"
+          rows="4"
+        ></textarea>
+      </div>
+
+      <!-- Price -->
+      <div class="mb-4">
+        <input
+          type="number"
+          name="price"
+          [(ngModel)]="newPrice"
+          placeholder="Projekt Preis"
+          class="form-control mx-auto"
+          style="border-radius: 16px; background-color: white; color: black; padding: 16px;"
+        />
+      </div>
+
+      <!-- Submit Button -->
+      <button
+        (click)="createProject()"
+        class="btn btn-primary"
+        style="background-color: var(--primary-color); padding: 16px 64px; border-radius: 12px;"
+      >
+        Erstellen
+      </button>
+
+    </div>
+
+    <!-- Back Section -->
+    <div class="bg-light text-center p-4 rounded-4 mx-auto mt-4 card shadow-sm" style=" background-color: var(--outer-card);">
+      <h3>
+        Anders überlegt?
+        <button (click)="goBack()" class="btn btn-link fw-bold" style="color: var(--primary-color); margin-left: 16px;">Zurück</button>
+      </h3>
+    </div>
+  </div>
+
+  
+</ion-content>
+
+<app-footer></app-footer>
