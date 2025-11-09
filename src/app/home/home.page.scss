@@ -8,6 +8,14 @@
     }
   }
 
+  .hero-header {
+    min-height: 55vh;    // oder 80vh / 90vh je nach Geschmack
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+
   @media (max-width: 1350px) {
     .h-home {
       height: 75vh;

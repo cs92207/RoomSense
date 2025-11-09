@@ -22,6 +22,8 @@ export class AppointmentScriptDetailsPage implements OnInit {
   appointmentScript:AppointmentScript = new AppointmentScript;
   project:Project = new Project;
 
+  isLoading:boolean = false;
+
   constructor(
     private router:Router,
     private route:ActivatedRoute,
@@ -33,6 +35,7 @@ export class AppointmentScriptDetailsPage implements OnInit {
 
   async ngOnInit() {
     this.loading.showPopup();
+    this.isLoading = true;
     let paID = this.route.snapshot.paramMap.get("id");
     if(paID != null) {
       this.appointmentScriptID = parseInt(paID);
@@ -41,6 +44,7 @@ export class AppointmentScriptDetailsPage implements OnInit {
     this.appointment = await this.appointmentService.getAppointmentById(this.appointmentScript.appointment);
     this.project = await this.customerService.getProjectByID(this.appointment.project);
     this.loading.closePopup();
+    this.isLoading = false;
   }
 
   async deleteAppointmentScript() {

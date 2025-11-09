@@ -50,7 +50,7 @@ export class CustomerComponent  implements OnInit {
     if(this.edit) {
       return;
     }
-    this.router.navigate(['customer-details', this.customer.id]);
+    location.href = 'customer-details/' + this.customer.id;
   }
 
   async deleteCustomer() {

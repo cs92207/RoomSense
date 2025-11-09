@@ -36,6 +36,7 @@ export class CalendarPage implements OnInit {
   ) { }
 
   async ngOnInit() {
+    this.isLoading = true;
     this.loading.showPopup();
     const mUser: User | null = await this.authService.getCurrentUser();
     if (!mUser) {
@@ -50,6 +51,7 @@ export class CalendarPage implements OnInit {
     this.loadProjectRequestsDeadlineAppointments();
     this.generateCalendar();
     this.loading.closePopup();
+    this.isLoading = false;
   }
 
   loadProjectDeadlineAppointments() {
@@ -121,9 +123,18 @@ export class CalendarPage implements OnInit {
   }
 
   getAppointmentsForDay(date: Date): Appointment[] {
-    const dayStr = date.toISOString().split('T')[0];
-    return this.appointments.filter(a => a.date === dayStr);
+
+    const dayStr = `${date.getFullYear()}-${(date.getMonth()+1).toString().padStart(2,'0')}-${date.getDate().toString().padStart(2,'0')}`;
+
+    let apps:Appointment[] = [];
+    this.appointments.forEach((element:Appointment) => {
+      if(element.date == dayStr) {
+        apps.push(element);
+      }
+    });
+    return apps;
   }
+
 
   isSameDate(d1: Date, d2: Date): boolean {
     return d1.getFullYear() === d2.getFullYear() &&

@@ -69,3 +69,21 @@
 .selected-appointments {
   margin-top: 20px;
 }
+
+.skeleton {
+  background: linear-gradient(90deg, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.2) 37%, rgba(255,255,255,0.1) 63%);
+  animation: shine 1.4s ease infinite;
+  border-radius: 4px;
+}
+
+.day-number.skeleton {
+  width: 24px;
+  height: 24px;
+  margin-bottom: 4px;
+}
+
+@keyframes shine {
+  0% { background-position: -200px 0; }
+  100% { background-position: calc(200px + 100%) 0; }
+}
+

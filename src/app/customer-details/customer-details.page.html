@@ -9,7 +9,8 @@
             <div class="metric-card text-dark p-0 m-0" style="font-size: 1.5vh">Kunde</div>
           </div>
           <div>
-            <p class="text-dark p-0 m-0" style="font-size: 2.3vh;">{{ customer.name }}</p>
+            <p *ngIf="!isLoading" class="text-dark p-0 m-0" style="font-size: 2.3vh;">{{ customer.name }}</p>
+            <p *ngIf="isLoading" class="text-dark p-0 m-0" style="font-size: 2.3vh;">Laden...</p>
           </div>
         </div>
       </div>
@@ -19,7 +20,8 @@
             <div class="metric-card text-dark p-0 m-0" style="font-size: 1.5vh">Anzahl der Projekte</div>
           </div>
           <div>
-            <p class="text-dark p-0 m-0" style="font-size: 2.3vh;">{{ projects.length }}</p>
+            <p *ngIf="!isLoading" class="text-dark p-0 m-0" style="font-size: 2.3vh;">{{ projects.length }}</p>
+            <p *ngIf="isLoading" class="text-dark p-0 m-0" style="font-size: 2.3vh;">Laden...</p>
           </div>
         </div>
       </div>
@@ -28,26 +30,56 @@
     <div class="row g-4">
       <div class="col-md-8">
         <div class="metric-card outer-card card p-3 border border-primary">
-          <h5>Projekte von {{customer.name}}</h5>
-          <div id="barChart" class="chart-placeholder mb-3" style="max-height: 250px; overflow-y: auto;">
+          <h5 *ngIf="!isLoading">Projekte von {{customer.name}}</h5>
+          <h5 *ngIf="isLoading">Projekte von Laden...</h5>
+
+          <!-- SKELETON -->
+           <div *ngIf="isLoading">
+              <div class="placeholder-wave my-2" *ngFor="let i of [1,2,3,4]">
+                <div class="placeholder col-12 mb-2" style="height:45px; border-radius:10px;"></div>
+              </div>
+           </div>
+          
+
+          <!-- REAL DATA -->
+          <div *ngIf="!isLoading" id="barChart" class="chart-placeholder mb-3" style="max-height: 250px; overflow-y: auto;">
             <div *ngFor="let project of projects">
               <app-project [project]="project"></app-project>
             </div>
           </div>
-          <button *ngIf="isOwner" (click)="openCreateProjectModal()" class="btn btn-primary mt-3">
+
+          <button *ngIf="isOwner && !isLoading" (click)="openCreateProjectModal()" class="btn btn-primary mt-3">
             <i class="bi bi-plus"></i> Projekt erstellen
           </button>
-          <button *ngIf="!isOwner" (click)="openCreateProjectRequestModal()" class="btn btn-primary mt-3">
+          <button *ngIf="!isOwner && !isLoading" (click)="openCreateProjectRequestModal()" class="btn btn-primary mt-3">
             <i class="bi bi-plus"></i> Projektanfrage erstellen
           </button>
         </div>
       </div>
+
       <div class="col-md-4">
         <div class="metric-card outer-card card p-3">
           <h5>Projektanfragen</h5>
-          <div *ngFor="let projectRequest of projectRequsts">
-              <app-project-request [projectRequest]="projectRequest" [isOwner]="isOwner" (deleteTriggered)="update()"></app-project-request>
+
+          <!-- SKELETON -->
+           <div *ngIf="isLoading" >
+              <div class="placeholder-wave my-2" *ngFor="let i of [1,2,3]">
+                <div class="placeholder col-12 mb-2" style="height:35px; border-radius:8px;"></div>
+              </div>
+           </div>
+          
+
+          <!-- REAL DATA -->
+          <div *ngIf="!isLoading">
+            <div *ngFor="let projectRequest of projectRequsts">
+              <app-project-request 
+                [projectRequest]="projectRequest" 
+                [isOwner]="isOwner" 
+                (deleteTriggered)="update()">
+              </app-project-request>
             </div>
+          </div>
+
         </div>
       </div>
     </div>
@@ -56,12 +88,23 @@
       <div class="col-md-8">
         <div class="metric-card outer-card card p-3">
           <h5>Termine</h5>
-          <div id="barChart" class="chart-placeholder mb-3" style="max-height: 250px; overflow-y: auto;">
+
+          <!-- SKELETON -->
+           <div *ngIf="isLoading">
+              <div class="placeholder-wave my-2" *ngFor="let i of [1,2,3,4]">
+                <div class="placeholder col-12 mb-2" style="height:45px; border-radius:10px;"></div>
+              </div>
+           </div>
+          
+
+          <!-- REAL DATA -->
+          <div *ngIf="!isLoading" id="barChart" class="chart-placeholder mb-3" style="max-height: 250px; overflow-y: auto;">
             <div *ngFor="let appointment of customerAppointments">
               <app-appointment-item [appointment]="appointment"></app-appointment-item>
             </div>
           </div>
-          <button (click)="openCreateAppointmentRequestModal()" class="btn btn-primary mt-3">
+
+          <button *ngIf="!isLoading" (click)="openCreateAppointmentRequestModal()" class="btn btn-primary mt-3">
             <i class="bi bi-plus"></i> Terminanfrage erstellen
           </button>
         </div>
@@ -69,9 +112,22 @@
       <div class="col-md-4">
         <div class="metric-card outer-card card p-3">
           <h5>Terminanfragen</h5>
-          <div *ngFor="let appointmentRequest of customerAppointmentRequests">
+
+          <!-- SKELETON -->
+           <div *ngIf="isLoading">
+            <div  class="placeholder-wave my-2" *ngFor="let i of [1,2,3]">
+              <div class="placeholder col-12 mb-2" style="height:35px; border-radius:8px;"></div>
+            </div>
+           </div>
+          
+
+          <!-- REAL DATA -->
+          <div *ngIf="!isLoading">
+            <div *ngFor="let appointmentRequest of customerAppointmentRequests">
               <app-appointment-request [appointmentRequest]="appointmentRequest"></app-appointment-request>
+            </div>
           </div>
+
         </div>
       </div>
     </div>

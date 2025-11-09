@@ -16,16 +16,28 @@
               <ion-button fill="clear" (click)="nextMonth()">›</ion-button>
             </div>
 
-            <div class="calendar-grid">
+            <div *ngIf="isLoading" class="calendar-grid">
+              <div class="day-name" *ngFor="let day of ['Mo','Di','Mi','Do','Fr','Sa','So']">
+                {{day}}
+              </div>
+
+              <div class="day-cell" *ngFor="let i of [].constructor(42)">
+                <div class="day">
+                  <div class="day-number skeleton"></div>
+                  <div class="appointments">
+                    <div class="appt skeleton" style="height:14px; margin-top:4px;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="!isLoading" class="calendar-grid">
               <div class="day-name" *ngFor="let day of ['Mo','Di','Mi','Do','Fr','Sa','So']">{{day}}</div>
 
-              <div 
-                class="day-cell" 
-                *ngFor="let week of weeks; let w = index" 
-                >
+              <div class="day-cell" *ngFor="let week of weeks; let w = index">
                 <div 
-                  class="day" 
-                  *ngFor="let day of week" 
+                  class="day"
+                  *ngFor="let day of week"
                   [class.inactive]="!day.isCurrentMonth"
                   [class.today]="day.isToday"
                   [class.selected]="isSameDate(day.date, selectedDate)"
@@ -34,24 +46,38 @@
                   <div class="day-number">{{day.date.getDate()}}</div>
                   <div class="appointments">
                     <div class="appt" *ngFor="let appt of day.appointments">
-                      {{ appt.topic || 'Termin' }}
+                      <p class="text-white" *ngIf="appt.deadline == 0">{{ appt.topic }}</p>
+                      <p class="text-white" *ngIf="appt.deadline == 1">Deadline</p>
+                      <p class="text-white" *ngIf="appt.deadline == 2">Request Deadline</p>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
 
+
             <div *ngIf="getAppointmentsForDay(selectedDate).length > 0" class="selected-appointments">
               <h3>Termine am {{ selectedDate | date:'dd.MM.yyyy' }}</h3>
-              <ion-list>
-                <ion-item *ngFor="let appt of getAppointmentsForDay(selectedDate)">
-                  <ion-label>
-                    <h2>{{ appt.topic }}</h2>
-                    <p>{{ appt.time }} Uhr</p>
-                    <a class="btn btn-outline-primary mt-2" href="appointment-details/{{ appt.id }}">Zum Termin</a>
-                  </ion-label>
-                </ion-item>
-              </ion-list>
+                <div class="card p-3 outline-card mt-1 mb-1" *ngFor="let appt of getAppointmentsForDay(selectedDate)">
+                  
+                  <div *ngIf="appt.deadline == 0">
+                    <ion-label>
+                      <h2>{{ appt.topic }}</h2>
+                      <p>{{ appt.time }} Uhr</p>
+                      <a class="btn btn-outline-primary mt-1" href="appointment-details/{{ appt.id }}">Zum Termin</a>
+                    </ion-label>
+                  </div>
+
+                  <div *ngIf="appt.deadline == 1" class="m-2">
+                    <h2 class="text-danger">Deadline</h2>
+                    <a class="btn btn-outline-danger mt-1" href="project-details/{{ appt.project }}/{{ appt.customer }}">Zum Projekt</a>
+                  </div>
+
+                  <div *ngIf="appt.deadline == 2" class="m-2">
+                    <h2 class="text-warning">Deadline Request</h2>
+                  </div>
+
+                </div>
             </div>
 
         </main>

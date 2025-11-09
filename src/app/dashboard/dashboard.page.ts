@@ -55,7 +55,7 @@ export class DashboardPage implements OnInit {
 
   async signOut() {
     await this.authService.signOut();
-    this.router.navigate(['sign-in']);
+    location.href = 'sign-in'
   }
 
   async closeTutorial() {
@@ -73,7 +73,7 @@ export class DashboardPage implements OnInit {
     this.isLoading = true;
     let mUser = await this.authService.getCurrentUser();
     if(mUser == null) {
-      this.router.navigate(["sign-in"]);
+      location.href = 'sign-in'
       return;
     }
     this.user = mUser;
@@ -101,7 +101,7 @@ export class DashboardPage implements OnInit {
   }
 
   goToProject() {
-    this.router.navigate(['project-details', this.project.id, this.customer.id]);
+    location.href = "project-details/" + this.project.id + "/"  + this.customer.id;
   }
 
   onSidebarChange(state: boolean) {

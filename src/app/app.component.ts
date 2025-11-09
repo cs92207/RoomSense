@@ -28,9 +28,7 @@ export class AppComponent {
   }
 
   navigateTo(page: string) {
-    this.router.navigate([`/${page}`]).then(() => {
-      this.menuCtrl.close();
-    });
+    location.href = page;
   }
 
   update() {

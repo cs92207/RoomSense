@@ -13,13 +13,8 @@ export class SidebarComponent  implements OnInit {
   isCollapsed = false;
 
   ngOnInit() {
-    this.autoCollapseOnMobile();
   }
 
-  @HostListener('window:resize')
-  autoCollapseOnMobile() {
-    this.isCollapsed = window.innerWidth < 768;
-  }
 
   goToPage(page:string) {
     location.href = page;

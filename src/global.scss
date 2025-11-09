@@ -82,3 +82,15 @@ body {
 ion-content {
   --background: var(--background);
 }
+
+.skeleton-box {
+  min-height: 180px;
+  border-radius: 12px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.08) 25%, rgba(255,255,255,0.16) 37%, rgba(255,255,255,0.08) 63%);
+  animation: shine 1.4s ease infinite;
+}
+
+@keyframes shine {
+  0% { background-position: -200px 0; }
+  100% { background-position: calc(200px + 100%) 0; }
+}

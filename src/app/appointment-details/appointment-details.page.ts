@@ -23,6 +23,8 @@ export class AppointmentDetailsPage implements OnInit {
 
   appointmentScripts:AppointmentScript[] = [];
 
+  isLoading:boolean = false;
+
   constructor(
     private loading:LoadingService,
     private appointmentService:AppointmentsService,
@@ -33,6 +35,7 @@ export class AppointmentDetailsPage implements OnInit {
   ) { }
 
   async ngOnInit() {
+    this.isLoading = true;
     this.loading.showPopup();
     let paID = this.route.snapshot.paramMap.get("id");
     if(paID != null) {
@@ -42,6 +45,7 @@ export class AppointmentDetailsPage implements OnInit {
     this.project = await this.customerService.getProjectByID(this.appointment.project);
     this.appointmentScripts = await this.appointmentService.getScriptsFromAppointment(this.appointment.id);
     this.loading.closePopup();
+    this.isLoading = false;
   }
 
   async archiveAppointment() {
