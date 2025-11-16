@@ -13,8 +13,8 @@ import { AuthService } from './auth.service';
 })
 export class CustomersService {
 
-  // url = "https://sv-studios.de/team_swap/api/";
-  url = "http://127.0.0.1:8000/api/";
+  url = "https://api.pauen-it.de/team_swap/api/";
+  // url = "http://127.0.0.1:8000/api/";
 
   constructor(private http:HttpClient, private storage:Storage, private authService:AuthService) { }
 
@@ -59,7 +59,7 @@ export class CustomersService {
   }
 
   async translateAudioToTodos(file:File, projectID:number, request:number, customerID:string) {
-    const url = "http://144.76.83.19:8001/transcribe";
+    const url = "http://45.84.196.228:8001/transcribe";
     const formData = new FormData();
     formData.append('file', file);
     try {
@@ -72,7 +72,7 @@ export class CustomersService {
   }
 
   async translateAudioToScript(file:File) : Promise<string> {
-    const url = "http://144.76.83.19:8001/transcribe";
+    const url = "http://45.84.196.228:8001/transcribe";
     const formData = new FormData();
     formData.append('file', file);
     try {
@@ -85,7 +85,7 @@ export class CustomersService {
   }
 
   async translateTextToTodos(text:string, projectID:number, request:number, customerID:string) : Promise<Todo[]> {
-    const url = "http://144.76.83.19:8000/todos";
+    const url = "http://45.84.196.228:8000/todos";
     const body = {
       content: text
     };

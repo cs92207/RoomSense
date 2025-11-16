@@ -23,7 +23,7 @@ export class ProfilePopoverComponent  implements OnInit {
   async signOut() {
     this.popoverCtrl.dismiss();
     await this.authService.signOut();
-    this.router.navigate(['sign-in']);
+    location.href = "sign-in";
   }
 
 }
