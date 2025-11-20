@@ -9,6 +9,7 @@ import { Project } from '../models/project';
 import { User } from '../models/user';
 import { CdkDragDrop, transferArrayItem } from '@angular/cdk/drag-drop';
 import { PopupService } from '../services/popup.service';
+import { LoadingOverlayService } from '../services/loading-overlay.service';
 
 @Component({
   selector: 'app-project-details',
@@ -34,8 +35,19 @@ export class ProjectDetailsPage implements OnInit {
   isLoading:boolean = false;  
   text:string = "";
 
+  isAI:boolean = false;
+  isAIAudio:boolean = false;
 
-  constructor(private customerService:CustomersService, private popUpService:PopupService, private router:Router, private loading:LoadingService, private route:ActivatedRoute, private authService:AuthService) { }
+
+  constructor(
+    private customerService:CustomersService, 
+    private popUpService:PopupService, 
+    private router:Router, 
+    private loading:LoadingService, 
+    private route:ActivatedRoute, 
+    private authService:AuthService,
+    private loader: LoadingOverlayService
+  ) { }
 
   async ngOnInit() {
     this.isLoading = true;
@@ -72,20 +84,20 @@ export class ProjectDetailsPage implements OnInit {
   }
 
   async convertToTodos() {
-    this.loading.showPopup();
+    this.isAI = true;
     await this.customerService.translateTextToTodos(this.text, this.project.id, 0, this.project.customer);
     this.text = "";
     this.updateTodoList();
-    this.loading.closePopup();
+    this.isAI = false;
   }
 
   async runTranscribe(event: any) {
     const file: File = event.target.files[0];
     if (!file) return;
-    this.loading.showPopup();
+    this.isAIAudio = true;
     await this.customerService.translateAudioToTodos(file, this.project.id, 0, this.project.customer);
     this.updateTodoList();
-    this.loading.closePopup();
+    this.isAIAudio = false;
   }
 
 

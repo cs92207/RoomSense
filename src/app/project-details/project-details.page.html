@@ -122,7 +122,10 @@
 </div>
 
 <div id="convert" style="width: 90%; justify-self: center; margin-top: 32px;" *ngIf="this.isOwner">
-  <div class="card outer-card text-dark p-3 h-100">
+  <div *ngIf="isAI">
+    Bitte warten...
+  </div>
+  <div *ngIf="!isAI" class="card outer-card text-dark p-3 h-100">
     <h4>Text zu Todo´s konvertieren</h4>
     <p>Füge hier einen Text (z.B. Kundenmail, WhatsApp Nachricht etc.) ein und unsere KI konvertiert diesen zu Todo´s.</p>
     <textarea [(ngModel)]="text" class="input-field" style="background-color: white;"></textarea>

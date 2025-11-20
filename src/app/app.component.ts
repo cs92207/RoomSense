@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { MenuController } from '@ionic/angular';
-import { filter } from 'rxjs';
+import { filter, Observable } from 'rxjs';
 import { User } from './models/user';
 import { AuthService } from './services/auth.service';
+import { LoadingOverlayService } from './services/loading-overlay.service';
 
 
 @Component({
@@ -15,8 +16,10 @@ import { AuthService } from './services/auth.service';
 export class AppComponent {
 
   user:User|null = null;
+  isLoading!: Observable<boolean>;
 
-  constructor(private router:Router, private menuCtrl:MenuController, private authService:AuthService) {}  
+  constructor(private router:Router, private menuCtrl:MenuController, private authService:AuthService) {
+  }  
 
   async ngOnInit() {
     await this.loadUser();
