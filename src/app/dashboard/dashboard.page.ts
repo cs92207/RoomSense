@@ -12,6 +12,7 @@ import { Project } from '../models/project';
 import { Storage } from '@ionic/storage-angular';
 import { Appointment } from '../models/appointment';
 import { AppointmentsService } from '../services/appointment.service';
+import { ProjectRequest } from '../models/project-request';
 
 @Component({
   selector: 'app-dashboard',
@@ -21,28 +22,36 @@ import { AppointmentsService } from '../services/appointment.service';
 })
 export class DashboardPage implements OnInit {
 
-  user:User = new User;
-  customers:Customer[] = [];
-  newName:string = "";
-  isLoading:boolean = false;
-  lastTodo:Todo = new Todo;
-  project:Project = new Project;
-  customer:Customer = new Customer;
+  user: User = new User();
+  customers: Customer[] = [];
+  newName: string = "";
+  isLoading: boolean = false;
+  lastTodo: Todo = new Todo();
+  project: Project = new Project();
+  customer: Customer = new Customer();
 
   collapsed = false;
+  tutorial: boolean = false;
 
-  tutorial:boolean = false;
+  appointments: Appointment[] = [];
 
-  appointments:Appointment[] = [];
+  currentDate: Date = new Date();
+  selectedDate: Date = new Date();
+
+  projectsFromUser: Project[] = [];
+  projectRequestsFromUser: ProjectRequest[] = [];
+
+  // MINI KALENDER
+  miniCalendarDays: any[] = [];
 
   constructor(
-    private router:Router, 
-    private authService:AuthService, 
-    private customerService:CustomersService, 
-    private loading:LoadingService,
-    private modalController:ModalController,
-    private storage:Storage,
-    private appointmentService:AppointmentsService
+    private router: Router,
+    private authService: AuthService,
+    private customerService: CustomersService,
+    private loading: LoadingService,
+    private modalController: ModalController,
+    private storage: Storage,
+    private appointmentService: AppointmentsService
   ) { }
 
   async ngOnInit() {
@@ -55,7 +64,7 @@ export class DashboardPage implements OnInit {
 
   async signOut() {
     await this.authService.signOut();
-    location.href = 'sign-in'
+    location.href = 'sign-in';
   }
 
   async closeTutorial() {
@@ -64,44 +73,112 @@ export class DashboardPage implements OnInit {
     await this.storage.set("TEAM_SWAP_TUTORIAL", 1);
   }
 
+  goToPage(page: string) {
+    location.href = page;
+  }
+
+  // -------------------------------------------------
+  // INIT
+  // -------------------------------------------------
   async init() {
     await this.storage.create();
-    let teamSwapTutorial:number = await this.storage.get("TEAM_SWAP_TUTORIAL")
-    if(!teamSwapTutorial || teamSwapTutorial == 0) {
+    let teamSwapTutorial: number = await this.storage.get("TEAM_SWAP_TUTORIAL");
+
+    if (!teamSwapTutorial || teamSwapTutorial == 0) {
       this.tutorial = true;
     }
+
     this.isLoading = true;
+
     let mUser = await this.authService.getCurrentUser();
-    if(mUser == null) {
-      location.href = 'sign-in'
+    if (mUser == null) {
+      location.href = 'sign-in';
       return;
     }
+
     this.user = mUser;
     this.appointments = await this.appointmentService.getAppointmentsFromUser(this.user.id);
+
     this.lastTodo = await this.customerService.getLastTodoFromUser(this.user.id);
     this.project = await this.customerService.getProjectByID(this.lastTodo.project);
     this.customers = await this.customerService.getAllCustomersFromUser(this.user.id);
     this.customer = await this.customerService.getCustomerByID(this.project.customer);
+
+    this.projectsFromUser = await this.customerService.getAllProjectsFromUser();
+    this.projectRequestsFromUser = await this.customerService.getAllProjectRequestsFromUser();
+
+    // MINI CALENDAR UPDATE
+    this.generateMiniCalendar();
+
     this.isLoading = false;
-    console.log(this.appointments);
   }
 
-  getCustomerByID(customerID:string) : Customer {
-    let customer:Customer = new Customer;
+  // -------------------------------------------------
+  // MINI CALENDAR
+  // -------------------------------------------------
+  generateMiniCalendar() {
+    const start = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 1);
+    const end = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, 0);
+
+    const firstDay = (start.getDay() + 6) % 7; // Montag=0
+    const daysInMonth = end.getDate();
+
+    const totalCells = firstDay + daysInMonth;
+    const fullGrid = Math.ceil(totalCells / 7) * 7;
+
+    this.miniCalendarDays = [];
+    let dayCounter = 1;
+
+    for (let i = 0; i < fullGrid; i++) {
+      const date = new Date(start);
+      date.setDate(dayCounter - firstDay);
+
+      const isCurrentMonth = date.getMonth() === this.currentDate.getMonth();
+      const isToday = this.isSameDate(date, new Date());
+
+      const appointments = this.appointments.filter(appt => {
+        const apptDate = new Date(appt.date);
+        return this.isSameDate(apptDate, date);
+      });
+
+      this.miniCalendarDays.push({
+        date,
+        isToday,
+        isCurrentMonth,
+        appointments
+      });
+
+      dayCounter++;
+    }
+  }
+
+  // -------------------------------------------------
+  // UTILS
+  // -------------------------------------------------
+  isSameDate(d1: Date, d2: Date): boolean {
+    return (
+      d1.getDate() === d2.getDate() &&
+      d1.getMonth() === d2.getMonth() &&
+      d1.getFullYear() === d2.getFullYear()
+    );
+  }
+
+  getCustomerByID(customerID: string): Customer {
+    let customer: Customer = new Customer();
     this.customers.forEach(element => {
-      if(element.id == customerID) {
+      if (element.id == customerID) {
         customer = element;
       }
     });
     return customer;
   }
 
-  goToAppointment(appointmentID:number) {
+  goToAppointment(appointmentID: number) {
     location.href = "appointment-details/" + appointmentID;
   }
 
   goToProject() {
-    location.href = "project-details/" + this.project.id + "/"  + this.customer.id;
+    location.href = "project-details/" + this.project.id + "/" + this.customer.id;
   }
 
   onSidebarChange(state: boolean) {
@@ -112,16 +189,12 @@ export class DashboardPage implements OnInit {
     this.modalController.dismiss();
   }
 
-  getShortDescriptionFromTodo() : string {
-    if(this.lastTodo.description.length <= 40) {
+  getShortDescriptionFromTodo(): string {
+    if (this.lastTodo.description.length <= 40) {
       return this.lastTodo.description;
     }
-    let shortDescription = "";
-    for(let i = 0; i < 40; i++) {
-      shortDescription += this.lastTodo.description.charAt(i);
-    }
-    shortDescription += "...";
-    return shortDescription;
+    let shortDescription = this.lastTodo.description.substring(0, 40);
+    return shortDescription + "...";
   }
 
   async openModal() {

@@ -9,8 +9,8 @@ import { AppointmentScript } from '../models/appointment-script';
 })
 export class AppointmentsService {
 
-  // url = "http://127.0.0.1:8000/api/";
-  url = "https://api.pauen-it.de/team_swap/api/";
+  url = "http://127.0.0.1:8000/api/";
+  // url = "https://api.pauen-it.de/team_swap/api/";
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 

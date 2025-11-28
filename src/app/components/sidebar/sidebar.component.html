@@ -22,22 +22,43 @@
         <span class="text-white" *ngIf="!isCollapsed">Übersicht</span>
       </a>
     </li>
+
     <li *ngIf="active !== 1" (click)="goToPage('calendar')" class="nav-item mt-2">
       <a routerLink="/orders" class="nav-link" routerLinkActive="active">
-        <i class="bi bi-table text-dark"></i>
-        <span class="text-dark" *ngIf="!isCollapsed">Kalender</span>
+        <i class="bi bi-people-fill text-dark"></i>
+        <span class="text-dark" *ngIf="!isCollapsed">Kundendashboard</span>
       </a>
     </li>
     <li *ngIf="active == 1" (click)="goToPage('calendar')" class="nav-item mt-2" style="background-color: var(--primary-color); border-radius: 4px;">
       <a routerLink="/orders" class="nav-link" routerLinkActive="active">
-        <i class="bi bi-table text-white"></i>
-        <span class="text-white" *ngIf="!isCollapsed">Kalender</span>
+        <i class="bi bi-people-fill text-white"></i>
+        <span class="text-white" *ngIf="!isCollapsed">Kundendashboard</span>
       </a>
     </li>
-    <li class="nav-item mt-2">
-      <a (click)="goToPage('calendar')" class="nav-link" routerLinkActive="active">
-        <i class="bi bi-grid text-dark"></i>
-        <span class="text-dark" *ngIf="!isCollapsed">Comming Soon</span>
+
+     <li *ngIf="active !== 2" (click)="goToPage('calendar')" class="nav-item mt-2">
+      <a routerLink="/orders" class="nav-link" routerLinkActive="active">
+        <i class="bi bi-person-badge-fill text-dark"></i>
+        <span class="text-dark" *ngIf="!isCollapsed">Leadverwaltung</span>
+      </a>
+    </li>
+    <li *ngIf="active == 2" (click)="goToPage('calendar')" class="nav-item mt-2" style="background-color: var(--primary-color); border-radius: 4px;">
+      <a routerLink="/orders" class="nav-link" routerLinkActive="active">
+        <i class="bi bi-person-badge-fill text-white"></i>
+        <span class="text-white" *ngIf="!isCollapsed">Leadverwaltung</span>
+      </a>
+    </li>
+
+    <li *ngIf="active !== 3" (click)="goToPage('calendar')" class="nav-item mt-2">
+      <a routerLink="/orders" class="nav-link" routerLinkActive="active">
+        <i class="bi bi-calendar-check text-dark"></i>
+        <span class="text-dark" *ngIf="!isCollapsed">Kalender</span>
+      </a>
+    </li>
+    <li *ngIf="active == 3" (click)="goToPage('calendar')" class="nav-item mt-2" style="background-color: var(--primary-color); border-radius: 4px;">
+      <a routerLink="/orders" class="nav-link" routerLinkActive="active">
+        <i class="bi bi-calendar-check text-white"></i>
+        <span class="text-white" *ngIf="!isCollapsed">Kalender</span>
       </a>
     </li>
   </ul>

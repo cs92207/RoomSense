@@ -1,0 +1,139 @@
+<ion-content [fullscreen]="true">
+  <app-cookie-banner></app-cookie-banner>
+
+  <div class="scroll-wrapper">
+    <div class="d-flex flex-row vh-100">
+
+      <!-- Sidebar -->
+      <app-sidebar
+        [ngClass]="{ 'collapsed': collapsed }"
+        (collapsedChange)="onSidebarChange($event)"
+        [active]="3"> <!-- Lead Verwaltung aktiv -->
+      </app-sidebar>
+
+      <!-- Main Content -->
+      <div
+        [ngStyle]="{ 'margin-left.px': collapsed ? 80 : 250 }"
+        class="width-main flex-fill p-4">
+
+        <main class="container" style="margin-top: 128px;">
+
+          <!-- Titel -->
+          <h2 class="text-dark mb-4">Leadverwaltung</h2>
+
+          <!-- Skeleton Loading -->
+          <ng-container *ngIf="isLoading; else actualContent">
+
+            <!-- Skeleton Top Cards -->
+            <div class="row mb-4">
+              <div class="col-12 col-md-6 mb-3 mb-md-0" *ngFor="let i of [1,2]">
+                <div class="outer-card card p-3 h-100">
+                  <div class="skeleton skeleton-text" style="width: 40%; height: 20px;"></div>
+                  <div class="skeleton skeleton-text mt-2" style="width: 70%; height: 30px;"></div>
+                  <div class="skeleton skeleton-button mt-3" style="width: 40%; height: 25px;"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Skeleton Lead List -->
+            <div class="outer-card card p-3 h-100">
+              <div class="skeleton skeleton-text mb-3" style="width: 50%; height: 20px;"></div>
+
+              <div *ngFor="let i of [1,2,3,4]">
+                <div class="skeleton skeleton-text" style="width: 100%; height: 60px; margin-bottom: 16px;"></div>
+              </div>
+            </div>
+
+          </ng-container>
+
+          <!-- Actual Content -->
+          <ng-template #actualContent>
+
+            <!-- Header Cards -->
+            <div class="row mb-4">
+              <div class="col-md-6 mb-3">
+                <div class="outer-card card p-3 text-dark h-100">
+                  <h5>Neuen Lead anlegen</h5>
+                  <p class="m-0 text-dark">Lege hier einen neuen Interessenten für ein Projekt an.</p>
+                  <button class="btn btn-primary mt-3 btn-sm" (click)="openCreateLead()">
+                    <i class="bi bi-plus-lg"></i> Lead hinzufügen
+                  </button>
+                </div>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <div class="outer-card card p-3 text-dark h-100">
+                  <h5>Gesamtübersicht</h5>
+                  <p class="m-0 text-dark">{{ leads.length }} Leads vorhanden</p>
+                  <button class="btn btn-outline-primary mt-3 btn-sm" (click)="reload()">
+                    Aktualisieren
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Lead List -->
+            <div class="metric-card outer-card card p-3 border border-primary">
+              <h5>Deine Leads</h5>
+
+              <div class="chart-placeholder mb-3"
+                  style="max-height: 400px; overflow-y: auto;">
+
+                <div *ngFor="let lead of leads" class="mb-2">
+                  <div class="outer-card card p-3">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                      <!-- Lead Infos -->
+                      <div>
+                        <h6 class="m-0">
+                          {{ lead.firstname }} {{ lead.lastname }}
+                        </h6>
+                        <small class="text-muted">
+                          {{ lead.email }} · {{ lead.phone }}
+                        </small>
+                        <br>
+                        <small>Status: {{ lead.status }}</small>
+                      </div>
+
+                      <!-- Actions -->
+                      <div class="d-flex gap-2">
+
+                        <!-- Rating Badge -->
+                        <span 
+                          class="badge"
+                          [ngClass]="{
+                            'bg-success': lead.rating === 'Low',
+                            'bg-primary': lead.rating === 'Normal',
+                            'bg-warning': lead.rating === 'High',
+                            'bg-danger': lead.rating === 'Very High'
+                          }"
+                        >
+                          {{ lead.rating }}
+                        </span>
+
+                        <button class="btn btn-outline-primary btn-sm" (click)="openEditLead(lead)">
+                          Bearbeiten
+                        </button>
+
+                        <button class="btn btn-outline-danger btn-sm" (click)="deleteLead(lead.id)">
+                          Löschen
+                        </button>
+                      </div>
+
+                    </div>
+
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </ng-template>
+
+        </main>
+
+      </div>
+    </div>
+  </div>
+</ion-content>

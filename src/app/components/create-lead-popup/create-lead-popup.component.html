@@ -1,0 +1,95 @@
+<ion-content class="ion-padding">
+  <div class="popup-container">
+
+    <h3>Neuen Lead anlegen</h3>
+
+    <ion-item>
+      <ion-label position="floating">Vorname *</ion-label>
+      <ion-input [(ngModel)]="firstname"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Nachname *</ion-label>
+      <ion-input [(ngModel)]="lastname"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Adresse</ion-label>
+      <ion-input [(ngModel)]="address"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">E-Mail *</ion-label>
+      <ion-input type="email" [(ngModel)]="email"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Telefon</ion-label>
+      <ion-input [(ngModel)]="phone"></ion-input>
+    </ion-item>
+
+    <!-- STATUS -->
+    <ion-item>
+      <ion-label>Status</ion-label>
+      <ion-select [(ngModel)]="status">
+        <ion-select-option value="Neu">Neu</ion-select-option>
+        <ion-select-option value="Kontakt aufgenommen">Kontakt aufgenommen</ion-select-option>
+        <ion-select-option value="In Bearbeitung">In Bearbeitung</ion-select-option>
+        <ion-select-option value="Abgeschlossen">Abgeschlossen</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <!-- QUELLE -->
+    <ion-item>
+      <ion-label>Quelle</ion-label>
+      <ion-select [(ngModel)]="source">
+        <ion-select-option value="Website">Website</ion-select-option>
+        <ion-select-option value="Instagram">Instagram</ion-select-option>
+        <ion-select-option value="Facebook">Facebook</ion-select-option>
+        <ion-select-option value="Empfehlung">Empfehlung</ion-select-option>
+        <ion-select-option value="Sonstiges">Sonstiges</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <!-- AUFTRAGSART -->
+    <ion-item>
+      <ion-label>Auftragsart</ion-label>
+      <ion-select [(ngModel)]="order_type">
+        <ion-select-option value="Webdesign">Webdesign</ion-select-option>
+        <ion-select-option value="Branding">Branding</ion-select-option>
+        <ion-select-option value="Pflegevertrag">Pflegevertrag</ion-select-option>
+        <ion-select-option value="Onlineshop">Onlineshop</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <!-- RATING -->
+    <ion-item>
+      <ion-label>Rating</ion-label>
+      <ion-select [(ngModel)]="rating">
+        <ion-select-option value="Low">Low</ion-select-option>
+        <ion-select-option value="Normal">Normal</ion-select-option>
+        <ion-select-option value="High">High</ion-select-option>
+        <ion-select-option value="Very High">Very High</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <!-- NOTES -->
+    <ion-item>
+      <ion-label position="floating">Notizen</ion-label>
+      <ion-textarea rows="4" [(ngModel)]="notes"></ion-textarea>
+    </ion-item>
+
+    <!-- BUTTONS -->
+    <div class="btn-row">
+      <button class="btn btn-secondary" (click)="close()">
+        Schließen
+      </button>
+
+      <button class="btn btn-primary" [disabled]="isSaving" (click)="saveLead()">
+        <span *ngIf="!isSaving">Speichern</span>
+        <span *ngIf="isSaving">Speichere...</span>
+      </button>
+    </div>
+
+  </div>
+</ion-content>

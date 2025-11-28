@@ -22,6 +22,8 @@ import { AppointmentRequestComponent } from '../components/appointment-request/a
 import { CreateAppointmentRequestComponent } from '../components/create-appointment-request/create-appointment-request.component';
 import { CreateAppointmentScriptComponent } from '../components/create-appointment-script/create-appointment-script.component';
 import { AppointmentScriptComponent } from '../components/appointment-script/appointment-script.component';
+import { CreateLeadPopupComponent } from '../components/create-lead-popup/create-lead-popup.component';
+import { EditLeadPopupComponent } from '../components/edit-lead-popup/edit-lead-popup.component';
 
 
 
@@ -45,7 +47,9 @@ import { AppointmentScriptComponent } from '../components/appointment-script/app
     AppointmentRequestComponent,
     CreateAppointmentRequestComponent,
     CreateAppointmentScriptComponent,
-    AppointmentScriptComponent
+    AppointmentScriptComponent,
+    CreateLeadPopupComponent,
+    EditLeadPopupComponent
   ],
   imports: [
     CommonModule,
@@ -71,7 +75,9 @@ import { AppointmentScriptComponent } from '../components/appointment-script/app
     AppointmentRequestComponent,
     CreateAppointmentRequestComponent,
     CreateAppointmentScriptComponent,
-    AppointmentScriptComponent
+    AppointmentScriptComponent,
+    CreateLeadPopupComponent,
+    EditLeadPopupComponent
   ]
 })
 export class SharedModule { }

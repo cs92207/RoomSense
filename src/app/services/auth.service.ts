@@ -8,8 +8,8 @@ import { User } from '../models/user';
 })
 export class AuthService {
 
-  apiURL = "https://api.pauen-it.de/team_swap/api/";
-  // apiURL = "http://127.0.0.1:8000/api/";
+  // apiURL = "https://api.pauen-it.de/team_swap/api/";
+  apiURL = "http://127.0.0.1:8000/api/";
 
   currentUser:null|User = null;
   tokenKey:string = "auth_token_shop";

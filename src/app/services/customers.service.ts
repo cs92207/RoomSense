@@ -13,8 +13,8 @@ import { AuthService } from './auth.service';
 })
 export class CustomersService {
 
-  url = "https://api.pauen-it.de/team_swap/api/";
-  // url = "http://127.0.0.1:8000/api/";
+  // url = "https://api.pauen-it.de/team_swap/api/";
+  url = "http://127.0.0.1:8000/api/";
 
   constructor(private http:HttpClient, private storage:Storage, private authService:AuthService) { }
 

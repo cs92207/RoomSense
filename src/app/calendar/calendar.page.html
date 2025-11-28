@@ -4,7 +4,7 @@
   <div class="scroll-wrapper">
     <div class="d-flex flex-row vh-100">
       <!-- Sidebar -->
-      <app-sidebar [ngClass]="{ 'collapsed': collapsed }" (collapsedChange)="onSidebarChange($event)" [active]="1"></app-sidebar>
+      <app-sidebar [ngClass]="{ 'collapsed': collapsed }" (collapsedChange)="onSidebarChange($event)" [active]="3"></app-sidebar>
 
       <!-- Main Content -->
       <div [ngStyle]="{ 'margin-left.px': collapsed ? 80 : 250 }" class="width-main flex-fill p-4">
