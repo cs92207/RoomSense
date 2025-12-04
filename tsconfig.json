@@ -19,8 +19,8 @@
     "target": "es2022",
     "module": "es2020",
     "lib": [
-      "es2018", 
-      "dom"
+      "ES2022", 
+      "DOM"
     ],
     "useDefineForClassFields": false
   },
@@ -28,6 +28,7 @@
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
-    "strictTemplates": true
+    "strictTemplates": true,
   }
+  
 }

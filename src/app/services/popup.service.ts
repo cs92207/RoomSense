@@ -1,20 +1,26 @@
 import { Injectable } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { ToastController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PopupService {
 
-  constructor(private alertController: AlertController) {}
+  constructor(private toastController: ToastController) {}
 
-  async showAlert(message: string, header: string = 'Info', buttonText: string = 'OK'): Promise<void> {
-    const alert = await this.alertController.create({
-      header: header,
-      message: message,
-      buttons: [buttonText]
+  async showAlert(
+    message: string, 
+    duration: number = 3000,
+    position: 'top' | 'middle' | 'bottom' = 'bottom',
+    color: string = 'primary'
+  ): Promise<void> {
+    const toast = await this.toastController.create({
+      message,
+      duration,
+      position,
+      color
     });
-    await alert.present();
+
+    await toast.present();
   }
-  
 }

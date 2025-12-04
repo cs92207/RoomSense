@@ -4,7 +4,6 @@ import { MenuController } from '@ionic/angular';
 import { filter, Observable } from 'rxjs';
 import { User } from './models/user';
 import { AuthService } from './services/auth.service';
-import { LoadingOverlayService } from './services/loading-overlay.service';
 
 
 @Component({

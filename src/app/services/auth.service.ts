@@ -8,11 +8,10 @@ import { User } from '../models/user';
 })
 export class AuthService {
 
-  // apiURL = "https://api.pauen-it.de/team_swap/api/";
   apiURL = "http://127.0.0.1:8000/api/";
 
   currentUser:null|User = null;
-  tokenKey:string = "auth_token_shop";
+  tokenKey:string = "auth_token_organisation";
   
   constructor(private http:HttpClient, private storage:Storage) { }
 
@@ -22,6 +21,25 @@ export class AuthService {
     }
     let token:string = await this.loadAuthToken();
     return await this.autoSignIn(token);
+  }
+
+  async getUserByID(userID:number) : Promise<User> {
+    const url = this.apiURL + "user-by-id/" + userID;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    try {
+      let res = await this.http.get<any>(url, { headers }).toPromise();
+      let user:User = {
+        id: res['user']['id'],
+        email: res['user']['email'],
+        emailVerified: res['user']['emailVerified']
+      };
+      return user;
+    } catch(error: any) {
+      console.log(error);
+    }
+    return new User;
   }
 
   async signOut() {
