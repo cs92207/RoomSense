@@ -1,0 +1,50 @@
+<ion-list class="container">
+
+  <!-- 🔥 PROGRESS BAR -->
+  <div class="progress-card" style="margin-bottom: 64px;" *ngIf="totalTodos > 0">
+
+    <div class="progress-header">
+      <span style="margin-right: 16px;">{{ doneTodos }} von {{ totalTodos }} erledigt</span>
+      <strong>{{ progressText }}</strong>
+    </div>
+
+    <ion-progress-bar
+      [value]="progressPercent / 100"
+      color="success">
+    </ion-progress-bar>
+
+  </div>
+
+
+  <ion-item *ngFor="let todo of todos">
+
+    <ion-checkbox
+      slot="start"
+      [checked]="todo.is_done"
+      [disabled]="todo.is_done"
+      (ionChange)="markDone(todo, $event)">
+    </ion-checkbox>
+
+    <ion-label>
+      <h2>{{ todo.title }}</h2>
+
+      <div class="meta">
+        <span class="difficulty" [ngClass]="difficultyClass(todo.difficulty)">
+          {{ todo.difficulty }}
+        </span>
+
+        <span class="xp">
+          +{{ todo.xp }} XP
+        </span>
+      </div>
+    </ion-label>
+
+    <div
+      class="xp-fly"
+      *ngIf="animatingTodoId === todo.id">
+      +{{ todo.xp }} XP
+    </div>
+
+  </ion-item>
+
+</ion-list>

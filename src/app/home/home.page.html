@@ -1,7 +1,161 @@
 <div class="ion-page" id="main-content">
   <ion-content [fullscreen]="true">
 
+    <div style="margin-top: 128px;"></div>
 
+      <div class="container" *ngIf="loading">
+
+        <ng-container>
+
+          <!-- Area Chart & Calendar -->
+            <div class="row g-4 mt-4">
+              <div class="col-md-12 mb-4" *ngFor="let i of [1]">
+                <div class="outer-card card p-3 h-100">
+                  <div class="skeleton skeleton-text" style="width: 50%; height: 20px;"></div>
+                  <div class="skeleton skeleton-text mt-2" style="width: 80%; height: 30px;"></div>
+                  <div class="skeleton skeleton-button mt-3" style="width: 30%; height: 25px;"></div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Top Cards -->
+            <div class="row mb-4">
+              <div class="col-12 col-md-6 mb-3 mb-md-0" *ngFor="let i of [1,2]">
+                <div class="outer-card card p-3 h-100">
+                  <div class="skeleton skeleton-text" style="width: 50%; height: 20px;"></div>
+                  <div class="skeleton skeleton-text mt-2" style="width: 80%; height: 30px;"></div>
+                  <div class="skeleton skeleton-button mt-3" style="width: 30%; height: 25px;"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="row g-4">
+              <div class="col-md-12">
+                <div class="outer-card card p-3 h-100">
+                  <div class="skeleton skeleton-text" style="width: 60%; height: 25px;"></div>
+                  <div class="skeleton skeleton-text mt-2" style="width: 100%; height: 200px;"></div>
+                  <div class="skeleton skeleton-button mt-3" style="width: 40%; height: 25px;"></div>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+
+          <style>
+            .skeleton {
+              background-color: #e0e0e0;
+              border-radius: 4px;
+              position: relative;
+              overflow: hidden;
+            }
+
+            .skeleton::after {
+              content: '';
+              display: block;
+              position: absolute;
+              top: 0;
+              left: -100%;
+              height: 100%;
+              width: 100%;
+              background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+              animation: loading 1.5s infinite;
+            }
+          </style>
+
+      </div>
+
+
+    <div *ngIf="tutorial && !loading" class="container alert alert-warning alert-dismissible fade show" style=" margin-bottom: 32px;" role="alert">
+      <h4 class="alert-heading">Willkommen im Dashboard</h4>
+      <p>Hier siehst du deine XP und deine Streak. Zudem kannst du Räume erstellen und Bilder analysieren lassen.</p>
+      <hr>
+      <p class="mb-0">Klicke jetzt auf Raum hinzufügen, um deinen ersten Raum zu erstellen und Bilder analysieren zu lassen.</p>
+      <!-- X Button -->
+      <button (click)="closeTutorial()" type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <div *ngIf="!loading" class="container">
+
+      <div
+        class="outer-card card p-3 mb-4 border-0 reward-progress"
+        *ngIf="nextReward">
+
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <strong>Nächste Belohnung</strong>
+          <span class="badge bg-success">
+            {{ nextReward.required_xp }} XP
+          </span>
+        </div>
+
+        <div class="mb-1">
+          <strong>{{ nextReward.title }}</strong>
+        </div>
+
+        <small class="text-muted">
+          Noch {{ xpMissing }} XP bis zur nächsten Belohnung
+        </small>
+
+        <div class="progress mt-2" style="height: 12px;">
+          <div
+            class="progress-bar progress-bar-striped progress-bar-animated"
+            role="progressbar"
+            [style.width.%]="rewardProgressPercent * 100">
+          </div>
+        </div>
+
+      </div>
+
+      <div
+        class="outer-card card p-3 mb-4 border-0 reward-progress"
+        *ngIf="!nextReward">
+
+        <strong>🎉 Alle Belohnungen freigeschaltet!</strong>  
+        Stark durchgezogen 💪
+      </div>
+
+
+      <div class="row mb-4">
+        <div class="col-12 col-md-6 mb-3 mb-md-0">
+          <div class="outer-card card text-dark p-3 h-100">
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="metric-card text-dark p-0 m-0" style="font-size: 1.5vh">Deine Email</div>
+            </div>
+            <div>
+              <p class="text-dark p-0 m-0" style="font-size: 2.3vh;">{{ user.email }}</p>
+              <button (click)="signOut()" class="btn btn-outline-danger mt-2 btn-sm">Abmelden</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 mb-3 mb-md-0">
+          <div class="outer-card card text-dark p-3 h-100">
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="metric-card text-dark p-0 m-0" style="font-size: 1.5vh">Deine XP</div>
+            </div>
+            <div>
+              <p class="text-dark p-0 m-0" style="font-size: 2.3vh;">{{ xp }}</p>
+              <button (click)="openRewards()" class="btn btn-outline-primary mt-2 btn-sm">Belohnungen verwalten</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-md-12">
+          <div class="metric-card outer-card card p-3 border border-primary">
+            <h5>Deine Räume</h5>
+            <div id="barChart" class="chart-placeholder mb-3" style="max-height: 250px; overflow-y: auto;">
+              <div *ngFor="let room of rooms">
+                 <app-room [room]="room"></app-room>
+              </div>
+            </div>
+            <button (click)="openCreateRoom()" class="btn btn-primary mt-3">
+              Raum erstellen
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
       
   </ion-content>
 </div>

@@ -1,0 +1,50 @@
+
+<ion-content [fullscreen]="true">
+
+  <ion-content class="ion-padding">
+
+    <div style="margin-top: 128px;"></div>
+
+    <div *ngIf="loading" class="container">
+
+      <!-- Todo Skeletons -->
+      <div class="skeleton-todo" *ngFor="let i of [1,2,3,4]">
+        <div class="skeleton skeleton-checkbox"></div>
+        <div class="skeleton skeleton-lines">
+          <div class="skeleton skeleton-title"></div>
+          <div class="skeleton skeleton-text"></div>
+        </div>
+      </div>
+
+      <!-- Button Skeleton -->
+      <div class="skeleton skeleton-button mt-4"></div>
+
+    </div>
+
+    <div class="container" style="text-align: center; justify-content: center; justify-self: center;">
+      <ion-spinner *ngIf="loading"></ion-spinner>
+    </div>
+
+    <app-todo-list [todos]="todos"></app-todo-list>
+
+
+    <p class="empty" *ngIf="!loading && todos.length === 0">
+      Noch keine Todos für diesen Raum.
+    </p>
+
+    
+    <input
+      type="file"
+      accept="image/*"
+      hidden
+      #fileInput
+      (change)="analyzeRoom($event)"
+    />
+
+    <ion-button class="container mt-4" expand="block" (click)="fileInput.click()">
+      Raum analysieren
+    </ion-button>
+
+  </ion-content>
+
+</ion-content>

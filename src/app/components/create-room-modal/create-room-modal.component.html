@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Neuer Raum</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">Schließen</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-card>
+    <ion-card-content>
+
+      <ion-item>
+        <ion-input
+          label="Raumname"
+          placeholder="z. B. Schlafzimmer"
+          [(ngModel)]="name">
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-textarea
+          label="Beschreibung (optional)"
+          placeholder="Optional"
+          [(ngModel)]="description">
+        </ion-textarea>
+      </ion-item>
+
+      <div *ngIf="error" class="text-danger mt-2">
+        {{ error }}
+      </div>
+
+      <ion-button
+        expand="block"
+        class="mt-3"
+        color="success"
+        [disabled]="loading"
+        (click)="createRoom()">
+
+        Raum erstellen
+      </ion-button>
+
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

@@ -1,0 +1,116 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Deine Belohnungen</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">Schließen</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <div *ngIf="loading">
+    <div class="row g-4">
+        <div class="col-md-12">
+          <div class="outer-card card p-3 h-50">
+            <div class="skeleton skeleton-text" style="width: 60%; height: 25px;"></div>
+            <div class="skeleton skeleton-text mt-2" style="width: 100%; height: 200px;"></div>
+            <div class="skeleton skeleton-button mt-3" style="width: 40%; height: 25px;"></div>
+          </div>
+        </div>
+      </div>
+  </div>
+
+  <style>
+    .skeleton {
+      background-color: #e0e0e0;
+      border-radius: 4px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .skeleton::after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      left: -100%;
+      height: 100%;
+      width: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      animation: loading 1.5s infinite;
+    }
+  </style>
+
+  <ion-card *ngFor="let reward of rewards" class="reward-card">
+    <ion-card-header>
+      <ion-card-title>
+        {{ reward.title }}
+        <ion-badge 
+          [color]="reward.is_unlocked ? 'success' : 'medium'"
+          class="ms-2">
+          {{ reward.required_xp }} XP
+        </ion-badge>
+      </ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <p *ngIf="reward.description">{{ reward.description }}</p>
+
+      <ion-button
+        size="small"
+        color="danger"
+        fill="clear"
+        (click)="deleteReward(reward)">
+        Löschen
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <hr />
+
+  <!-- ✅ NEUE BELOHNUNG -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>➕ Neue Belohnung</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-item>
+        <ion-input
+          label="Titel"
+          [(ngModel)]="title"
+          placeholder="z. B. Eis essen 🍦">
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-textarea
+          label="Beschreibung"
+          [(ngModel)]="description"
+          placeholder="Optional">
+        </ion-textarea>
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          type="number"
+          label="Benötigte XP"
+          [(ngModel)]="requiredXp"
+          min="100"
+          step="100">
+        </ion-input>
+      </ion-item>
+
+      <ion-button
+        expand="block"
+        color="success"
+        class="mt-2"
+        [disabled]="loading"
+        (click)="createReward()">
+        Belohnung erstellen
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

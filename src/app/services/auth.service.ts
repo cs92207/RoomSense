@@ -8,7 +8,8 @@ import { User } from '../models/user';
 })
 export class AuthService {
 
-  apiURL = "http://127.0.0.1:8000/api/";
+  // apiURL = "http://127.0.0.1:8000/api/";
+  apiURL = "https://api.pauen-it.de/room_sense/api/";
 
   currentUser:null|User = null;
   tokenKey:string = "auth_token_organisation";

@@ -1,0 +1,65 @@
+ion-item {
+  position: relative;
+  overflow: hidden;
+}
+
+/* XP Fly-Up Element */
+.xp-fly {
+  position: absolute;
+  right: 20px;
+  bottom: 14px;
+  font-weight: bold;
+  font-size: 16px;
+  color: #4caf50;
+  animation: xpFlyUp 0.9s ease-out forwards;
+  pointer-events: none;
+}
+
+/* Animation */
+@keyframes xpFlyUp {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-40px);
+    opacity: 0;
+  }
+}
+
+/* Difficulty Badges (wie vorher) */
+.meta {
+  display: flex;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.difficulty {
+  padding: 4px 12px;
+  border-radius: 14px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.easy {
+  background: #d4f7dc;
+  color: #1f7a3a;
+}
+
+.normal {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.hard {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.xp {
+  font-size: 12px;
+  opacity: 0.7;
+}
